@@ -1,8 +1,8 @@
 import React from 'react';
-import {Image, ListRenderItemInfo, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Button, Card, List, Text} from '@ui-kitten/components';
+import {Image, ImageBackground, ListRenderItemInfo, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Avatar, Button, Card, List, Text, Layout} from '@ui-kitten/components';
 import {ImageOverlay} from './extra/image-overlay.component';
-import {HeartIcon, PlusIcon, ShareIcon} from './extra/icons';
+import {HeartIcon, PlusIcon, ShareIcon,MessageCircleIcon} from './extra/icons';
 import {Training} from './extra/data';
 
 const data = [
@@ -14,49 +14,40 @@ const data = [
 function ImgScreen() {
     console.log(data);
     const renderItemHeader = (info) => (
-        <ImageOverlay
+        <ImageBackground
             style={styles.itemHeader}
-            source={info.item.photo}>
-            <Text
-                style={styles.itemTitle}
-                category='h4'
-                status='control'>
-                {info.item.title}
-            </Text>
-        </ImageOverlay>
+            source={info.item.image}
+        />
     );
 
-    const renderItemFooter = () => (
+    const renderItemFooter = (info) => (
         <View style={styles.itemFooter}>
-            <View style={styles.itemReactionsContainer}>
-                <Button
-                    style={styles.iconButton}
-                    appearance='ghost'
-                    status='basic'
-                    accessoryLeft={ShareIcon}/>
-                <Button
-                    style={styles.iconButton}
-                    appearance='ghost'
-                    status='danger'
-                    accessoryLeft={HeartIcon}
-                />
+            <Avatar source={info.item.author.photo}/>
+            <View style={styles.itemAuthoringContainer}>
+                <Text
+                    category='s2'>
+                    {info.item.author.fullName}
+                </Text>
+                <Text
+                    appearance='hint'
+                    category='c1'>
+                    {info.item.date}
+                </Text>
             </View>
-            <View style={styles.avatarContainer}>
-                <Image
-                    source={require('./assets/avatar.png')}
-                    style={{
-                        width: 50,
-                        height: 50,
-                        resizeMode: 'cover',
-                        borderRadius: 25,
-                        borderColor: 'white',
-                        borderWidth: 1,
-                    }}
-                />
-                <View style={{paddingLeft: 15,marginRight:10}}>
-                    <Text >2018/6/6</Text>
-                </View>
-            </View>
+            <Button
+                style={styles.iconButton}
+                appearance='ghost'
+                status='basic'
+                accessoryLeft={MessageCircleIcon}>
+                {`${info.item.comments.length}`}
+            </Button>
+            <Button
+                style={styles.iconButton}
+                appearance='ghost'
+                status='danger'
+                accessoryLeft={HeartIcon}>
+                {`${info.item.likes.length}`}
+            </Button>
         </View>
     );
 
@@ -64,26 +55,36 @@ function ImgScreen() {
         <Card
             style={styles.item}
             header={() => renderItemHeader(info)}
-            footer={renderItemFooter}>
+            footer={() => renderItemFooter(info)}
+            // onPress={() => onItemPress(info.index)}
+        >
             <Text
-                style={styles.itemDescription}
+                style={styles.itemContent}
+                appearance='hint'
                 category='s1'>
-                {info.item.description}
+                {`${info.item.content.substring(0, 82)}...`}
             </Text>
         </Card>
     );
 
     return (
-        <List
-            style={styles.list}
-            contentContainerStyle={styles.listContent}
-            data={data}
-            renderItem={renderItem}
-        />
+        <Layout
+            style={styles.container}
+            level='2'>
+            <List
+                style={styles.list}
+                contentContainerStyle={styles.listContent}
+                data={data}
+                renderItem={renderItem}
+            />
+        </Layout>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     list: {
         flex: 1,
     },
@@ -95,35 +96,24 @@ const styles = StyleSheet.create({
         marginVertical: 8,
     },
     itemHeader: {
-        minHeight: 220,
+        height: 220,
     },
-    itemTitle: {
-        position: 'absolute',
-        left: 24,
-        bottom: 24,
-    },
-    itemDescription: {
-        marginHorizontal: -8,
+    itemContent: {
+        marginVertical: 8,
     },
     itemFooter: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    itemReactionsContainer: {
-        flexDirection: 'row',
-    },
-    itemAddButton: {
-        flexDirection: 'row-reverse',
-        paddingHorizontal: 0,
+        paddingLeft:10,
+        paddingTop:10
+        // marginHorizontal: -8,
     },
     iconButton: {
         paddingHorizontal: 0,
     },
-    avatarContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+    itemAuthoringContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        marginHorizontal: 16,
     },
 });
 export default ImgScreen;

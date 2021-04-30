@@ -13,3 +13,7 @@ export const PlusIcon = (style) => (
 export const ShareIcon = (style) => (
     <Icon {...style} name='share-outline'/>
 );
+
+export const MessageCircleIcon = (style) => (
+    <Icon {...style} name='message-circle-outline'/>
+);
