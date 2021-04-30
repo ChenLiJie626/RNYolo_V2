@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, ImageBackground, ListRenderItemInfo, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Avatar, Button, Card, List, Text, Layout} from '@ui-kitten/components';
 import {ImageOverlay} from './extra/image-overlay.component';
-import {HeartIcon, PlusIcon, ShareIcon,MessageCircleIcon} from './extra/icons';
+import {HeartIcon, PlusIcon, ShareIcon, MessageCircleIcon} from './extra/icons';
 import {Training} from './extra/data';
+import {RadioGroup} from '../../components';
+import {TabView, SceneMap} from 'react-native-tab-view';
+import ProfileScreen from '../Profile/Profile';
 
 const data = [
     Training.basketball(),
@@ -12,7 +15,11 @@ const data = [
 ];
 
 function ImgScreen() {
-    console.log(data);
+    const [index, setIndex] = React.useState(0);
+    const [routes] = React.useState([
+        {key: 'first', title: '开始探索'},
+        {key: 'second', title: '个人主页'},
+    ]);
     const renderItemHeader = (info) => (
         <ImageBackground
             style={styles.itemHeader}
@@ -66,8 +73,7 @@ function ImgScreen() {
             </Text>
         </Card>
     );
-
-    return (
+    const Layout1 =()=> (
         <Layout
             style={styles.container}
             level='2'>
@@ -78,6 +84,19 @@ function ImgScreen() {
                 renderItem={renderItem}
             />
         </Layout>
+    );
+
+    const renderScene = SceneMap({
+        first: Layout1,
+        second: ProfileScreen,
+    });
+
+    return (
+        <TabView
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+        />
     );
 };
 
@@ -103,8 +122,8 @@ const styles = StyleSheet.create({
     },
     itemFooter: {
         flexDirection: 'row',
-        paddingLeft:10,
-        paddingTop:10
+        paddingLeft: 10,
+        paddingTop: 10,
         // marginHorizontal: -8,
     },
     iconButton: {

@@ -6275,6 +6275,11 @@ react-native-tab-view@^2.15.2:
   resolved "https://registry.npm.taobao.org/react-native-tab-view/download/react-native-tab-view-2.16.0.tgz#cae72c7084394bd328fac5fefb86cd966df37a86"
   integrity sha1-yucscIQ5S9Mo+sX++4bNlm3zeoY=
 
+react-native-tab-view@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npm.taobao.org/react-native-tab-view/download/react-native-tab-view-3.0.1.tgz#7ed8c5c4a0bb48fa8895e612d26e6d545ed03447"
+  integrity sha1-ftjFxKC7SPqIleYS0m5tVF7QNEc=
+
 react-native-text-size@4.0.0-rc.1:
   version "4.0.0-rc.1"
   resolved "https://registry.npm.taobao.org/react-native-text-size/download/react-native-text-size-4.0.0-rc.1.tgz#1e048d345dd6a5a8e1269e0585c1a5948c478da5"
